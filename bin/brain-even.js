@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { askUser } from '../src/cli.js';
 import { greetUserByName, greetUser } from './brain-games.js';
 
