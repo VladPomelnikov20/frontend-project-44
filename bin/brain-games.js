@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
 import { askUser } from '../src/cli.js';
+import { showText } from '../src/helper.js';
 
 export const greetUser = () => {
-  console.log('Welcome to the Brain Games!');
-};
-
-export const greetUserByName = () => {
+  showText('Welcome to the Brain Games!');
   const userName = askUser('May I have your name?');
-  console.log(`Hello, ${userName}!`);
+  showText(`Hello, ${userName}!`);
   return userName;
 };
