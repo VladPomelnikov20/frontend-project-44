@@ -10,6 +10,15 @@ brain-even: # запуск скрипта brain-even
 brain-calc: # запуск скрипта brain-calc
 	node bin/games/brain-calc.js
 
+brain-gcd: # запуск скрипта brain-gcd
+	node bin/games/brain-gcd.js
+
+brain-progression: # запуск скрипта brain-progression
+	node bin/games/brain-progression.js
+
+brain-prime: # запуск скрипта brain-prime
+	node bin/games/brain-prime.js
+
 publish: # сухая публикация пакета
 	npm publish --dry-run
 

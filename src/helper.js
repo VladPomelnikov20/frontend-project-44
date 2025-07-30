@@ -1,5 +1,5 @@
-export const getRandomInt = () => {
-  return Math.floor(Math.random() * 100);
+export const getRandomInt = (limit = 100) => {
+  return Math.floor(Math.random() * limit);
 };
 
 export const showText = text => console.log(text);
