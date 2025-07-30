@@ -1,13 +1,17 @@
 import { greetUser } from '../bin/brain-games.js';
 import { askUser } from './cli.js';
-import { getRandomInt, showText } from './helper.js';
+import { getRandomInt, showText, tryParseNumber } from './helper.js';
 
 export const ESSENTIAL_CORRECT_ANSWERS_NUM = 3;
 
 const askAndCheck = (questionText, correctAnswer) => {
   const originalUserAnswer = askUser(`Question: ${questionText}`);
   const formattedUserAnswer = typeof originalUserAnswer === 'string' ? originalUserAnswer.toLowerCase().trim() : '';
-  return { correctAnswer, originalUserAnswer, formattedUserAnswer };
+  return {
+    correctAnswer,
+    originalUserAnswer,
+    formattedUserAnswer: tryParseNumber(formattedUserAnswer),
+  };
 };
 
 export const BRAIN_GAME_KEYS = {
@@ -44,7 +48,7 @@ export default function runBaseGameLoop(gameType) {
   while (correctAnswersCount < ESSENTIAL_CORRECT_ANSWERS_NUM) {
     const runRound = BRAIN_GAME_ROUNDS_BY_TYPE[gameType];
     if (typeof runRound !== 'function') {
-      showText('The unexpected error has been occured. A patch will be delivered soon!');
+      showText('The unexpected error has been occured. The patch will be delivered soon!');
       return;
     }
 
@@ -61,5 +65,7 @@ export default function runBaseGameLoop(gameType) {
       break;
     }
   }
+
   if (correctAnswersCount === ESSENTIAL_CORRECT_ANSWERS_NUM) showText(`Congratulations, ${userName}!`);
+  return;
 };
