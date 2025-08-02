@@ -1,13 +1,16 @@
 export const getRandomInt = (limit = 10) => {
-  return Math.floor(Math.random() * limit);
-};
-
-export const getRandomIntWithoutZero = (limit = 10) => {
   let num;
   do {
-    num = getRandomInt(limit);
+    num = Math.floor(Math.random() * limit);
   } while (num === 0);
   return num;
+};
+
+export const getValueByRandomKey = (obj) => {
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return undefined;
+  const randomIndex = Math.floor(Math.random() * keys.length);
+  return obj[keys[randomIndex]];
 };
 
 export const showText = text => console.log(text);

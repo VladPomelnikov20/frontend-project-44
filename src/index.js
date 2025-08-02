@@ -1,5 +1,13 @@
 import { askUser } from './cli.js';
-import { getRandomInt, getRandomIntWithoutZero, showText, tryParseNumber } from './helper.js';
+import { getRandomInt, getValueByRandomKey, showText, tryParseNumber } from './helper.js';
+
+export const BRAIN_GAME_KEYS = {
+  even: 'even',
+  calc: 'calc',
+  gcd: 'gcd',
+  progression: 'progression',
+  prime: 'prime',
+};
 
 export const greetUser = () => {
   showText('Welcome to the Brain Games!');
@@ -8,14 +16,10 @@ export const greetUser = () => {
   return userName;
 };
 
-const ERROR_MSG = 'The unexpected error has been occured. The patch will be delivered soon!';
-
-const ESSENTIAL_CORRECT_ANSWERS_NUM = 3;
-
 const MATH_OPERATIONS = {
-  0: (a, b) => ['+', a + b],
-  1: (a, b) => ['-', a - b],
-  2: (a, b) => ['*', a * b],
+  addition: (a, b) => ['+', a + b],
+  subtraction: (a, b) => ['-', a - b],
+  multiplication: (a, b) => ['*', a * b],
 };
 
 const getGCD = (a, b) => {
@@ -50,7 +54,7 @@ const generateProgression = (length = 10) => {
   };
 };
 
-function checkNumIsPrime(n) {
+const checkNumIsPrime = (n) => {
   if (n <= 1) return false;
   if (n === 2) return true;
   if (n % 2 === 0) return false;
@@ -61,7 +65,7 @@ function checkNumIsPrime(n) {
   }
 
   return true;
-}
+};
 
 const askAndCheck = (questionText, correctAnswer) => {
   showText(`Question: ${questionText}`);
@@ -73,14 +77,7 @@ const askAndCheck = (questionText, correctAnswer) => {
   };
 };
 
-export const BRAIN_GAME_KEYS = {
-  even: 'even',
-  calc: 'calc',
-  gcd: 'gcd',
-  progression: 'progression',
-  prime: 'prime',
-};
-
+const ERROR_MSG = 'The unexpected error has been occured. The patch will be delivered soon!';
 const BRAIN_GAME_RULE_MSGS = {
   [BRAIN_GAME_KEYS.even]: 'Answer "yes" if the number is even, otherwise answer "no".',
   [BRAIN_GAME_KEYS.calc]: 'What is the result of the expression?',
@@ -96,17 +93,14 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
     return askAndCheck(questionedNumber, correctAnswer);
   },
   [BRAIN_GAME_KEYS.calc]: () => {
-    const operatorId = getRandomInt(3);
     const leftOperand = getRandomInt();
     const rightOperand = getRandomInt();
-
-    const calc = MATH_OPERATIONS[operatorId] ?? MATH_OPERATIONS[0];
-    const [operator, correctAnswer] = calc(leftOperand, rightOperand);
+    const [operator, correctAnswer] = getValueByRandomKey(MATH_OPERATIONS)(leftOperand, rightOperand);
     return askAndCheck(`${leftOperand} ${operator} ${rightOperand}`, correctAnswer);
   },
   [BRAIN_GAME_KEYS.gcd]: () => {
-    const leftOperand = getRandomIntWithoutZero();
-    const rightOperand = getRandomIntWithoutZero();
+    const leftOperand = getRandomInt();
+    const rightOperand = getRandomInt();
     const correctAnswer = getGCD(leftOperand, rightOperand);
     return askAndCheck(`${leftOperand} ${rightOperand}`, correctAnswer);
   },
@@ -115,11 +109,13 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
     return askAndCheck(question, correctAnswer);
   },
   [BRAIN_GAME_KEYS.prime]: () => {
-    const questionedNumber = getRandomIntWithoutZero(100);
+    const questionedNumber = getRandomInt(100);
     const correctAnswer = checkNumIsPrime(questionedNumber) ? 'yes' : 'no';
     return askAndCheck(questionedNumber, correctAnswer);
   },
 };
+
+const ESSENTIAL_CORRECT_ANSWERS_NUM = 3;
 
 export default function runBaseGameLoop(gameType) {
   const userName = greetUser();
