@@ -1,5 +1,5 @@
 import { askUser } from './cli.js';
-import { getRandomInt, getValueByRandomKey, showText, tryParseNumber } from './helper.js';
+import { getRandomInt, getRandomObjValue, showText, tryParseNumber } from './helper.js';
 
 export const BRAIN_GAME_KEYS = {
   even: 'even',
@@ -17,9 +17,9 @@ export const greetUser = () => {
 };
 
 const MATH_OPERATIONS = {
-  addition: (a, b) => ['+', a + b],
-  subtraction: (a, b) => ['-', a - b],
-  multiplication: (a, b) => ['*', a * b],
+  addition: (a, b) => ({ operator: '+', correctAnswer: a + b }),
+  subtraction: (a, b) => ({ operator: '-', correctAnswer: a - b }),
+  multiplication: (a, b) => ({ operator: '*', correctAnswer: a * b }),
 };
 
 const getGCD = (a, b) => {
@@ -45,13 +45,9 @@ const generateProgression = (length = 10) => {
 
   const correctAnswer = progression[hiddenIndex];
   progression[hiddenIndex] = '..';
-
   const question = progression.join(' ');
 
-  return {
-    question,
-    correctAnswer,
-  };
+  return { question, correctAnswer };
 };
 
 const checkNumIsPrime = (n) => {
@@ -71,9 +67,7 @@ const askAndCheck = (questionText, correctAnswer) => {
   showText(`Question: ${questionText}`);
   const originalUserAnswer = askUser('Your answer is:');
   const formattedUserAnswer = typeof originalUserAnswer === 'string' ? originalUserAnswer.toLowerCase().trim() : '';
-  return {
-    correctAnswer,
-    userAnswer: tryParseNumber(formattedUserAnswer),
+  return { correctAnswer, userAnswer: tryParseNumber(formattedUserAnswer),
   };
 };
 
@@ -95,7 +89,7 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
   [BRAIN_GAME_KEYS.calc]: () => {
     const leftOperand = getRandomInt();
     const rightOperand = getRandomInt();
-    const [operator, correctAnswer] = getValueByRandomKey(MATH_OPERATIONS)(leftOperand, rightOperand);
+    const { operator, correctAnswer } = getRandomObjValue(MATH_OPERATIONS)(leftOperand, rightOperand);
     return askAndCheck(`${leftOperand} ${operator} ${rightOperand}`, correctAnswer);
   },
   [BRAIN_GAME_KEYS.gcd]: () => {

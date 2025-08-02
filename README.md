@@ -8,5 +8,5 @@
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=VladPomelnikov20_frontend-project-44&metric=bugs)](https://sonarcloud.io/summary/new_code?id=VladPomelnikov20_frontend-project-44)
 
-### brain-even usage tutorial:
-[Посмотреть запись в asciinema](https://asciinema.org/a/kkYCB6HqMSIOZuJGPbvBHXkjh)
+### brain-games demo video:
+[![asciicast](https://asciinema.org/a/S7w6zzaVCYT6d0OFWNcu5hm6J.svg)](https://asciinema.org/a/S7w6zzaVCYT6d0OFWNcu5hm6J)

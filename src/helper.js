@@ -6,7 +6,7 @@ export const getRandomInt = (limit = 10) => {
   return num;
 };
 
-export const getValueByRandomKey = (obj) => {
+export const getRandomObjValue = (obj) => {
   const keys = Object.keys(obj);
   if (keys.length === 0) return undefined;
   const randomIndex = Math.floor(Math.random() * keys.length);
