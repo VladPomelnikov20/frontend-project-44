@@ -1,5 +1,5 @@
 import { askUser } from './cli.js';
-import { getRandomInt, showText, tryParseNumber } from './helper.js';
+import { getRandomInt, getRandomIntWithoutZero, showText, tryParseNumber } from './helper.js';
 
 export const greetUser = () => {
   showText('Welcome to the Brain Games!');
@@ -97,14 +97,16 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
   },
   [BRAIN_GAME_KEYS.calc]: () => {
     const operatorId = getRandomInt(3);
-    const leftOperand = getRandomInt(10);
-    const rightOperand = getRandomInt(10);
-    const [operator, correctAnswer] = MATH_OPERATIONS[operatorId](leftOperand, rightOperand);
+    const leftOperand = getRandomInt();
+    const rightOperand = getRandomInt();
+
+    const calc = MATH_OPERATIONS[operatorId] ?? MATH_OPERATIONS[0];
+    const [operator, correctAnswer] = calc(leftOperand, rightOperand);
     return askAndCheck(`${leftOperand} ${operator} ${rightOperand}`, correctAnswer);
   },
   [BRAIN_GAME_KEYS.gcd]: () => {
-    const leftOperand = getRandomInt();
-    const rightOperand = getRandomInt();
+    const leftOperand = getRandomIntWithoutZero();
+    const rightOperand = getRandomIntWithoutZero();
     const correctAnswer = getGCD(leftOperand, rightOperand);
     return askAndCheck(`${leftOperand} ${rightOperand}`, correctAnswer);
   },
@@ -113,7 +115,7 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
     return askAndCheck(question, correctAnswer);
   },
   [BRAIN_GAME_KEYS.prime]: () => {
-    const questionedNumber = getRandomInt();
+    const questionedNumber = getRandomIntWithoutZero(100);
     const correctAnswer = checkNumIsPrime(questionedNumber) ? 'yes' : 'no';
     return askAndCheck(questionedNumber, correctAnswer);
   },
