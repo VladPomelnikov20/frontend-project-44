@@ -1,8 +1,22 @@
-import { greetUser } from '../bin/brain-games.js';
 import { askUser } from './cli.js';
 import { getRandomInt, showText, tryParseNumber } from './helper.js';
 
-export const ESSENTIAL_CORRECT_ANSWERS_NUM = 3;
+export const greetUser = () => {
+  showText('Welcome to the Brain Games!');
+  const userName = askUser('May I have your name?');
+  showText(`Hello, ${userName}!`);
+  return userName;
+};
+
+const ERROR_MSG = 'The unexpected error has been occured. The patch will be delivered soon!';
+
+const ESSENTIAL_CORRECT_ANSWERS_NUM = 3;
+
+const MATH_OPERATIONS = {
+  0: (a, b) => ['+', a + b],
+  1: (a, b) => ['-', a - b],
+  2: (a, b) => ['*', a * b],
+};
 
 const getGCD = (a, b) => {
   while (b !== 0) {
@@ -50,12 +64,12 @@ function checkNumIsPrime(n) {
 }
 
 const askAndCheck = (questionText, correctAnswer) => {
-  const originalUserAnswer = askUser(`Question: ${questionText}`);
+  showText(`Question: ${questionText}`);
+  const originalUserAnswer = askUser('Your answer is:');
   const formattedUserAnswer = typeof originalUserAnswer === 'string' ? originalUserAnswer.toLowerCase().trim() : '';
   return {
     correctAnswer,
-    originalUserAnswer,
-    formattedUserAnswer: tryParseNumber(formattedUserAnswer),
+    userAnswer: tryParseNumber(formattedUserAnswer),
   };
 };
 
@@ -67,12 +81,12 @@ export const BRAIN_GAME_KEYS = {
   prime: 'prime',
 };
 
-const BRAIN_GAME_RULE_MSG = {
-  [BRAIN_GAME_KEYS.even]: () => showText('Answer "yes" if the number is even, otherwise answer "no".'),
-  [BRAIN_GAME_KEYS.calc]: () => showText('What is the result of the expression?'),
-  [BRAIN_GAME_KEYS.gcd]: () => showText('Find the greatest common divisor of given numbers.'),
-  [BRAIN_GAME_KEYS.progression]: () => showText('What number is missing in the progression?'),
-  [BRAIN_GAME_KEYS.prime]: () => showText('Answer "yes" if given number is prime. Otherwise answer "no".'),
+const BRAIN_GAME_RULE_MSGS = {
+  [BRAIN_GAME_KEYS.even]: 'Answer "yes" if the number is even, otherwise answer "no".',
+  [BRAIN_GAME_KEYS.calc]: 'What is the result of the expression?',
+  [BRAIN_GAME_KEYS.gcd]: 'Find the greatest common divisor of given numbers.',
+  [BRAIN_GAME_KEYS.progression]: 'What number is missing in the progression?',
+  [BRAIN_GAME_KEYS.prime]: 'Answer "yes" if given number is prime. Otherwise answer "no".',
 };
 
 const BRAIN_GAME_ROUNDS_BY_TYPE = {
@@ -82,10 +96,11 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
     return askAndCheck(questionedNumber, correctAnswer);
   },
   [BRAIN_GAME_KEYS.calc]: () => {
-    const leftOperand = getRandomInt();
-    const rightOperand = getRandomInt();
-    const correctAnswer = leftOperand + rightOperand;
-    return askAndCheck(`${leftOperand} + ${rightOperand}`, correctAnswer);
+    const operatorId = getRandomInt(3);
+    const leftOperand = getRandomInt(10);
+    const rightOperand = getRandomInt(10);
+    const [operator, correctAnswer] = MATH_OPERATIONS[operatorId](leftOperand, rightOperand);
+    return askAndCheck(`${leftOperand} ${operator} ${rightOperand}`, correctAnswer);
   },
   [BRAIN_GAME_KEYS.gcd]: () => {
     const leftOperand = getRandomInt();
@@ -106,27 +121,27 @@ const BRAIN_GAME_ROUNDS_BY_TYPE = {
 
 export default function runBaseGameLoop(gameType) {
   const userName = greetUser();
-  const showGameRuleMsg = BRAIN_GAME_RULE_MSG[gameType];
-  showGameRuleMsg();
+  const gameRuleMsg = BRAIN_GAME_RULE_MSGS[gameType];
+  const runRound = BRAIN_GAME_ROUNDS_BY_TYPE[gameType];
 
+  if (typeof gameRuleMsg !== 'string' || typeof runRound !== 'function') {
+    showText(ERROR_MSG);
+    return;
+  };
+
+  showText(gameRuleMsg);
   let correctAnswersCount = 0;
 
   while (correctAnswersCount < ESSENTIAL_CORRECT_ANSWERS_NUM) {
     const runRound = BRAIN_GAME_ROUNDS_BY_TYPE[gameType];
-    if (typeof runRound !== 'function') {
-      showText('The unexpected error has been occured. The patch will be delivered soon!');
-      return;
-    }
+    const { correctAnswer, userAnswer } = runRound();
 
-    const { correctAnswer, originalUserAnswer, formattedUserAnswer } = runRound();
-    showText(`Your answer is: ${originalUserAnswer}`);
-
-    if (correctAnswer === formattedUserAnswer) {
+    if (correctAnswer === userAnswer) {
       showText('Correct!');
       correctAnswersCount += 1;
     }
     else {
-      showText(`'${formattedUserAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+      showText(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
       break;
     }
   }

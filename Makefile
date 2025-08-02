@@ -1,26 +1,26 @@
-install: # установка зависимостей
+install:
 	npm ci
 
-brain-games: # запуск скрипта brain-games
+brain-games:
 	node bin/brain-games.js
 
-brain-even: # запуск скрипта brain-even
+brain-even:
 	node bin/games/brain-even.js
 
-brain-calc: # запуск скрипта brain-calc
+brain-calc:
 	node bin/games/brain-calc.js
 
-brain-gcd: # запуск скрипта brain-gcd
+brain-gcd:
 	node bin/games/brain-gcd.js
 
-brain-progression: # запуск скрипта brain-progression
+brain-progression:
 	node bin/games/brain-progression.js
 
-brain-prime: # запуск скрипта brain-prime
+brain-prime:
 	node bin/games/brain-prime.js
 
-publish: # сухая публикация пакета
+publish:
 	npm publish --dry-run
 
-lint: # запуск линтера
+lint:
 	npx eslint .
