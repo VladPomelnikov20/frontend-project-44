@@ -18,7 +18,7 @@ export const greetUser = () => {
 
 const MATH_OPERATIONS = {
   addition: (a, b) => ({ operator: '+', correctAnswer: a + b }),
-  subtraction: (a, b) => ({ operator: '-', correctAnswer: a - b }),
+  substraction: (a, b) => ({ operator: '-', correctAnswer: a - b }),
   multiplication: (a, b) => ({ operator: '*', correctAnswer: a * b }),
 };
 
