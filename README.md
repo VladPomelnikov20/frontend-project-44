@@ -15,7 +15,7 @@ The user is shown a random number. He must answer yes if the number is prime, or
 
 ## Installation and usage 
 
-Prerequisites: *Node.js* last version must be installed. 
+**Prerequisites**: *Node.js* last version must be installed. 
 
 1. Download the project using a *git clone* command (SSH way is more preferable). 
 2. Go to the loaded directory through the terminal and run a *make install* command. 
@@ -23,15 +23,17 @@ Prerequisites: *Node.js* last version must be installed.
 4. Run the game by entering its name that listed above. 
 5. Enjoy!
 
+## Brain Games status
+
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/VladPomelnikov20/frontend-project-44/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VladPomelnikov20/frontend-project-44/actions)
 
-### SonarCloud badges:
+### SonarCloud status:
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=VladPomelnikov20_frontend-project-44&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=VladPomelnikov20_frontend-project-44)
 
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=VladPomelnikov20_frontend-project-44&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=VladPomelnikov20_frontend-project-44)
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=VladPomelnikov20_frontend-project-44&metric=bugs)](https://sonarcloud.io/summary/new_code?id=VladPomelnikov20_frontend-project-44)
 
-### brain-games demo video:
+## Brain Games demo video:
 [![asciicast](https://asciinema.org/a/S7w6zzaVCYT6d0OFWNcu5hm6J.svg)](https://asciinema.org/a/S7w6zzaVCYT6d0OFWNcu5hm6J)
