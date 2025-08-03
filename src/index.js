@@ -67,8 +67,7 @@ const askAndCheck = (questionText, correctAnswer) => {
   showText(`Question: ${questionText}`)
   const originalUserAnswer = askUser('Your answer is:')
   const formattedUserAnswer = typeof originalUserAnswer === 'string' ? originalUserAnswer.toLowerCase().trim() : ''
-  return { correctAnswer, userAnswer: tryParseNumber(formattedUserAnswer),
-  }
+  return { correctAnswer, formattedUserAnswer: tryParseNumber(formattedUserAnswer), originalUserAnswer }
 }
 
 const ERROR_MSG = 'The unexpected error has been occured. The patch will be delivered soon!'
@@ -126,14 +125,14 @@ export default function runBaseGameLoop(gameType) {
 
   while (correctAnswersCount < ESSENTIAL_CORRECT_ANSWERS_NUM) {
     const runRound = BRAIN_GAME_ROUNDS_BY_TYPE[gameType]
-    const { correctAnswer, userAnswer } = runRound()
+    const { correctAnswer, originalUserAnswer, formattedUserAnswer } = runRound()
 
-    if (correctAnswer === userAnswer) {
+    if (correctAnswer === formattedUserAnswer) {
       showText('Correct!')
       correctAnswersCount += 1
     }
     else {
-      showText(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`)
+      showText(`'${originalUserAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`)
       break
     }
   }
