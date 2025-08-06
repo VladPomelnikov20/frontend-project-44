@@ -1,5 +1,5 @@
 import runBaseGameLoop, { askAndCheck } from '../index.js'
-import { getRandomInt } from '../helper'
+import { getRandomInt } from '../helper.js'
 
 const GAME_RULE_MSG = 'Answer "yes" if given number is prime. Otherwise answer "no".'
 
